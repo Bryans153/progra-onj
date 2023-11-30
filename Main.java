@@ -4,6 +4,8 @@
  */
 package com.mycompany.calculadora;
 import java.util.Scanner;
+import java.io.*;
+import java.util.InputMismatchException;
 /**
  *
  * @author HP
@@ -17,11 +19,8 @@ public class Main {
         // TODO code application logic here
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Ingrese el primer número: ");
-        double numero1 = scanner.nextDouble();
-
-        System.out.print("Ingrese el segundo número: ");
-        double numero2 = scanner.nextDouble();
+        double numero1 = obtenerNumero(scanner, "Ingrese el primer número: ");
+        double numero2 = obtenerNumero(scanner, "Ingrese el segundo número: ");
 
         System.out.println("Seleccione la operación:");
         System.out.println("1. Suma");
@@ -29,7 +28,8 @@ public class Main {
         System.out.println("3. Multiplicación");
         System.out.println("4. División");
 
-        int opcion = scanner.nextInt();
+        int opcion = obtenerOpcion(scanner);
+
         double resultado = 0;
 
         if (opcion == 1) {
@@ -53,6 +53,42 @@ public class Main {
 
         scanner.close();
     }
+
+    private static double obtenerNumero(Scanner scanner, String mensaje) {
+        double numero = 0;
+        boolean entradaCorrecta = false;
+
+        do {
+            try {
+                System.out.print(mensaje);
+                numero = scanner.nextDouble();
+                entradaCorrecta = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Ingrese un número válido.");
+                scanner.next(); // Limpiar el buffer del scanner
+            }
+        } while (!entradaCorrecta);
+
+        return numero;
     }
+
+    private static int obtenerOpcion(Scanner scanner) {
+        int opcion = 0;
+        boolean entradaCorrecta = false;
+
+        do {
+            try {
+                opcion = scanner.nextInt();
+                entradaCorrecta = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Ingrese un número entero válido.");
+                scanner.next(); // Limpiar el buffer del scanner
+            }
+        } while (!entradaCorrecta);
+
+        return opcion;
+    }
+    }
+    
     
 
